@@ -1,17 +1,8 @@
+#pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <Windows.h>
 #include <time.h>
-
-// INPUT
-// 입력 받기
-// 
-// UPDATE
-// 입력에 따른 로직 세팅
-// 입력에 따른 버퍼 세팅!
-// 
-// RENDER
-// 출력
 
 static int g_nScreenIndex;
 static HANDLE g_hScreen[2];
@@ -54,7 +45,7 @@ void ScreenRelease()
 	CloseHandle(g_hScreen[1]);
 }
 
-void ScreenPrint(int x, int y, char* string)
+void ScreenPrint(int x, int y, const char* string)
 {
 	DWORD dw;
 	COORD CursorPosition = { x, y };
@@ -76,7 +67,7 @@ void Render()
 	g_numofFPS++;
 	ScreenPrint(0, 0, FPSTextInfo);
 	ScreenPrint(1, 1, "★");
-	
+
 	ScreenFlipping();
 }
 

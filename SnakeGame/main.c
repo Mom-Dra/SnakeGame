@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <time.h>
+#include <conio.h>
 
 // INPUT
 // 입력 받기
@@ -18,6 +19,8 @@ static HANDLE g_hScreen[2];
 int g_numofFPS;
 clock_t CurTime, OldTime;
 char* FPSTextInfo;
+
+int desiredFPS = 100;
 
 void ScreenInit()
 {
@@ -64,43 +67,74 @@ void ScreenPrint(int x, int y, char* string)
 
 void Render()
 {
-	ScreenClear();
+	
 
-	if (CurTime - OldTime >= 1000)
+	/*if (CurTime - OldTime >= 1000)
 	{
 		sprintf(FPSTextInfo, "FPS : %d", g_numofFPS);
 		OldTime = CurTime;
 		g_numofFPS = 0;
-	}
+	}*/
 
-	g_numofFPS++;
-	ScreenPrint(0, 0, FPSTextInfo);
+	//g_numofFPS++;
+	//ScreenPrint(0, 0, FPSTextInfo);
 	ScreenPrint(1, 1, "★");
+	ScreenPrint(1, 2, "★");
+	ScreenPrint(1, 3, "★");
+	ScreenPrint(1, 4, "★");
 	
-	ScreenFlipping();
+	
 }
 
-void Release()
+//void Release()
+//{
+//	free(FPSTextInfo);
+//}
+
+void InputKey()
 {
-	free(FPSTextInfo);
+	int key;
+
+	if (_kbhit())
+	{
+		char ch = _getch();
+
+		if (ch == 'q')
+		{
+			ScreenPrint(1, 5, "★");
+		}
+	}
 }
 
 int main()
 {
-	g_numofFPS = 0;
-	FPSTextInfo = (char*)calloc(128, sizeof(char));
-
 	ScreenInit();
 
-	OldTime = clock(); // 시간을 측정한다
+	clock_t lastTime = clock();
+	int millisecondsPerFrame = 1000 / desiredFPS;
 
+	// 무한 루프!
 	while (1)
 	{
-		CurTime = clock();
-		Render();
+		clock_t currentTime = clock();
+		clock_t deltaTime = currentTime - lastTime;
+		
+		if (deltaTime >= millisecondsPerFrame)
+		{
+			InputKey();
+
+
+			Render();
+			ScreenClear();
+			ScreenFlipping();
+
+			lastTime = currentTime;
+		}
+
+		
 	}
 
-	Release();
+	//Release();
 	ScreenRelease();
 
 	return 0;

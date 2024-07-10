@@ -19,9 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="event.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="map.c" />
+    <ClCompile Include="player.c" />
+    <ClCompile Include="screen.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="event.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="screen.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -19,8 +19,6 @@ void ScreenInit()
 
 	SetConsoleCursorInfo(g_hScreen[0], &cci);
 	SetConsoleCursorInfo(g_hScreen[1], &cci);
-
-	//funcArr = (void (**)(void))malloc(capacity * sizeof(void (*)(void)));
 }
 
 void ScreenFlipping()
@@ -67,4 +65,15 @@ void DrawMap()
 			ScreenPrint(nX * 2, nY, GetBlockString(nX, nY));
 		}
 	}
+}
+
+void DrawInitialScreen()
+{
+	/*for (int nY = 0; nY < MAP_HEIGHT; ++nY)
+	{
+		for (int nX = 0; nX < MAP_WIDTH; ++nX)
+		{
+			ScreenPrint(nX * 2, nY, GetBlockString(nX, nY));
+		}
+	}*/
 }

@@ -3,6 +3,7 @@
 #include "player.h"
 #include "map.h"
 #include "vector2.h"
+#include "GameManager.h"
 
 // 이벤트 함수 등록하는건 나중에 해보자!
 halfSecondInterval = 500;
@@ -45,12 +46,14 @@ void CheckCollision()
 	case BLOCK_BLANK:
 		break;
 	case BLOCK_WALL:
+		GameOver();
 		break;
 	case BLOCK_PLAYER_HEAD:
 		break;
 	case BLOCK_PLAYER_BODY:
 		break;
 	case BLOCK_ITEM:
+		IncreaseBody();
 		break;
 	default:
 		break;

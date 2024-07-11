@@ -1,6 +1,6 @@
 #pragma once
 #include <time.h>
-#include "player.h"
+//#include "player.h"
 
 clock_t oneEventTimer;
 clock_t halfEventTimer;

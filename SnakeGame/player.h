@@ -1,6 +1,5 @@
 #pragma once
 
-#define PLAYER_NUM 2
 #define LEFT 75
 #define RIGHT 77
 #define UP 72

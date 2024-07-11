@@ -9,7 +9,7 @@ currentDir = RIGHT;
 
 void CalcPlayer()
 {
-	ORIGIN_MAP[playerY][playerX] = PLAYER_NUM;
+	ORIGIN_MAP[playerY][playerX] = BLOCK_PLAYER_HEAD;
 }
 
 void MovePlayer(int dir)
@@ -33,25 +33,25 @@ void MovePlayer(int dir)
 
 void MoveLeft()
 {
-	ORIGIN_MAP[playerY][playerX] = 0;
+	ORIGIN_MAP[playerY][playerX] = BLOCK_BLANK;
 	playerX -= 1;
 }
 
 void MoveRight()
 {
-	ORIGIN_MAP[playerY][playerX] = 0;
+	ORIGIN_MAP[playerY][playerX] = BLOCK_BLANK;
 	playerX += 1;
 }
 
 void MoveUp()
 {
-	ORIGIN_MAP[playerY][playerX] = 0;
+	ORIGIN_MAP[playerY][playerX] = BLOCK_BLANK;
 	playerY -= 1;
 }
 
 void MoveDown()
 {
-	ORIGIN_MAP[playerY][playerX] = 0;
+	ORIGIN_MAP[playerY][playerX] = BLOCK_BLANK;
 	playerY += 1;
 }
 

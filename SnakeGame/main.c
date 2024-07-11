@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <time.h>
+#include <stdlib.h>
 #include "screen.h"
 #include "player.h"
 #include "event.h"
@@ -19,6 +20,8 @@ static int desiredFPS = 100;
 
 int main()
 {
+	srand(time(NULL));
+
 	ScreenInit();		
 
 	clock_t lastTime = clock();
@@ -62,6 +65,7 @@ int main()
 		if(oneEventDeltaTime >= oneSecondInterval)
 		{
 			// 아이템 생성 이벤트
+			GenerateItemEvent();
 
 			halfEventTimer = currentTime;
 		}

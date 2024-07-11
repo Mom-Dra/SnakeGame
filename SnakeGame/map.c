@@ -1,6 +1,7 @@
 #include "map.h"
+#include "vector2.h"
 
-int ORIGIN_MAP[MAP_HEIGHT][MAP_WIDTH] =
+static int ORIGIN_MAP[MAP_HEIGHT][MAP_WIDTH] =
 {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -34,7 +35,7 @@ int ORIGIN_MAP[MAP_HEIGHT][MAP_WIDTH] =
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 };
 
-const char BLOCK_TYPES[][4] =
+static const char BLOCK_TYPES[][4] =
 {
 	" ", // 0 ∫Ûƒ≠
 		"¢√", // 1 ∫Æ
@@ -42,3 +43,28 @@ const char BLOCK_TYPES[][4] =
 		"°‹", // 3 «√∑π¿ÃæÓ ∏ˆ≈Î
 		"¢¿" // 4 æ∆¿Ã≈€
 };
+
+const char* GetBlockString(int x, int y)
+{
+	return BLOCK_TYPES[GetMapBlockType(x, y)];
+}
+
+void SetMapBlock(int x, int y, enum BlockType blockType)
+{
+	ORIGIN_MAP[y][x] = blockType;
+}
+
+//void SetMapBlock(struct Vector2 pos, enum BlockType blockType)
+//{
+//	ORIGIN_MAP[pos.y][pos.x] = blockType;
+//}
+
+enum BlockType GetMapBlockType(int x, int y)
+{
+	return ORIGIN_MAP[y][x];
+}
+
+//int GetMapBlock(struct Vector2 pos)
+//{
+//	return ORIGIN_MAP[pos.y][pos.x];
+//}

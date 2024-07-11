@@ -2,6 +2,7 @@
 #include "event.h"
 #include "player.h"
 #include "map.h"
+#include "vector2.h"
 
 // 이벤트 함수 등록하는건 나중에 해보자!
 halfSecondInterval = 500;
@@ -9,7 +10,7 @@ oneSecondInterval = 3000;
 
 void PlayerMoveEvent()
 {
-	MovePlayer(currentDir);
+	MovePlayer();
 }
 
 void GenerateItemEvent()
@@ -24,11 +25,34 @@ void GenerateItemEvent()
 		x = rand() % MAP_WIDTH;
 		y = rand() % MAP_HEIGHT;
 
-		if (ORIGIN_MAP[y][x] == BLOCK_BLANK)
+		if (GetMapBlockType(x, y) == BLOCK_BLANK)
 		{
 			break;
 		}
 	}
 
-	ORIGIN_MAP[y][x] = BLOCK_ITEM;
+	SetMapBlock(x, y, BLOCK_ITEM);
+}
+
+void CheckCollision()
+{
+	struct Vector2 nextPos = GetNextPlayerPos();
+
+	enum BlockType block = GetMapBlockType(nextPos.x, nextPos.y);
+
+	switch (block)
+	{
+	case BLOCK_BLANK:
+		break;
+	case BLOCK_WALL:
+		break;
+	case BLOCK_PLAYER_HEAD:
+		break;
+	case BLOCK_PLAYER_BODY:
+		break;
+	case BLOCK_ITEM:
+		break;
+	default:
+		break;
+	}
 }

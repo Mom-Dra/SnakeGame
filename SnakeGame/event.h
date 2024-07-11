@@ -8,5 +8,5 @@ extern int halfSecondInterval;
 extern int oneSecondInterval;
 
 void PlayerMoveEvent();
-
 void GenerateItemEvent();
+void CheckCollision();

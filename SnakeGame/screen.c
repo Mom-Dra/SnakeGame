@@ -55,62 +55,16 @@ void ScreenPrint(int x, int y, const char* string)
 void Render()
 {
 	// 맵그리기
-	Map();
-
-	// 플레이ㅓ 그리기
-
-	/*if (CurTime - OldTime >= 1000)
-	{
-		sprintf(FPSTextInfo, "FPS : %d", g_numofFPS);
-		OldTime = CurTime;
-		g_numofFPS = 0;
-	}*/
-
-	//g_numofFPS++;
-	//ScreenPrint(0, 0, FPSTextInfo);
-	
+	DrawMap();
 }
 
-
-//void Release()
-//{
-//	free(FPSTextInfo);
-//}
-
-
-
-//void AddRenderFunc(void (*func)(void))
-//{
-//	if (size >= capacity)
-//	{
-//		capacity *= 2;
-//
-//		funcArr = (void (**)(void))realloc(funcArr, capacity * sizeof(void(*)(void)));
-//	}
-//
-//	funcArr[size] = func;
-//	++size;
-//}
-
-void Map()
+void DrawMap()
 {
-	// width 2 * 29 = 58 -> 0 ~ 58
-	// height 0 ~ 29
-
-	/*for (int i = 0; i < 30; ++i)
-	{
-		ScreenPrint(i * 2, 0, "■");
-		ScreenPrint(0, i, "■");
-		ScreenPrint(29 * 2, i, "■");
-
-		ScreenPrint(i * 2, 29, "■");
-	}*/      
-
 	for (int nY = 0; nY < MAP_HEIGHT; ++nY)
 	{
 		for (int nX = 0; nX < MAP_WIDTH; ++nX)
 		{
-			ScreenPrint(nX * 2, nY, BLOCK_TYPES[ORIGIN_MAP[nY][nX]]);
+			ScreenPrint(nX * 2, nY, GetBlockString(nX, nY));
 		}
 	}
 }

@@ -25,3 +25,4 @@ void ScreenPrint(int x, int y, const char* string);
 void Render();
 void DrawMap();
 void DrawInitialScreen();
+void BreakScreen();

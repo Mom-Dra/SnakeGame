@@ -1,5 +1,7 @@
-#include "screen.h"
+#include <stdio.h>
 #include <Windows.h>
+#include <conio.h>
+#include "screen.h"
 #include "map.h"
 
 static int g_nScreenIndex;
@@ -69,6 +71,7 @@ void DrawMap()
 
 void DrawInitialScreen()
 {
+	printf("DrawInitialScreen\n");
 	/*for (int nY = 0; nY < MAP_HEIGHT; ++nY)
 	{
 		for (int nX = 0; nX < MAP_WIDTH; ++nX)
@@ -76,4 +79,26 @@ void DrawInitialScreen()
 			ScreenPrint(nX * 2, nY, GetBlockString(nX, nY));
 		}
 	}*/
+}
+
+void DrawEndingScreen()
+{
+	printf("DrawEndingScreen\n");
+	/*for (int nY = 0; nY < MAP_HEIGHT; ++nY)
+	{
+		for (int nX = 0; nX < MAP_WIDTH; ++nX)
+		{
+			ScreenPrint(nX * 2, nY, GetBlockString(nX, nY));
+		}
+	}*/
+}
+
+void BreakScreen()
+{
+	printf("아무키를 누르면 시작됩니다!\n");
+
+	while (!_kbhit())
+	{
+
+	}
 }

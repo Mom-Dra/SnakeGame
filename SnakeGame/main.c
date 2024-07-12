@@ -5,6 +5,7 @@
 #include "screen.h"
 #include "player.h"
 #include "event.h"
+#include "GameManager.h"
 
 // INPUT
 // 입력 받기
@@ -18,7 +19,8 @@
 
 // 구현해야 할 것
 // 충돌 이벤트
-// 1. 아이템을 먹으면 몸 길이 1 증가!
+// 반대방향으로 이동 막는거 추가
+// 
 // 2. 벽, 몸에 닿으면 게임 종료!!
 // 3. 아이템을 먹으면 이동 속도 증가
 // 4. 초기화면
@@ -36,7 +38,11 @@ int main()
 	{
 		DrawInitialScreen();
 
+		BreakScreen();
+
 		GameLoop();
+
+		BreakSscreen();
 	}
 	
 	//Release();
@@ -56,17 +62,19 @@ void Init()
 
 void GameLoop()
 {
+	ScreenInit();
+
 	clock_t lastTime = clock();
 	int millisecondsPerFrame = 1000 / desiredFPS;
 
 	oneEventTimer = lastTime;
 	halfEventTimer = lastTime;
 
-	while (1)
+	while (gameOver)
 	{
 		clock_t currentTime = clock();
 		clock_t deltaTime = currentTime - lastTime;
-
+		
 		if (deltaTime >= millisecondsPerFrame)
 		{
 			InputKey();

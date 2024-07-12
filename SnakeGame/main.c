@@ -26,8 +26,9 @@
 // 2. 벽, 몸에 닿으면 게임 종료!!
 // 3. 아이템을 먹으면 이동 속도 증가
 // 4. 초기화면 엔딩 아스키아트
+// 5. 사운드
 
-static int desiredFPS = 100;
+static int desiredFPS = 100; // --> GameManager로 옮기자
 
 void Init();
 void GameLoop();
@@ -62,7 +63,6 @@ void Init()
 	InitMap();
 
 	InitPlayer();
-	//SetPlayerPos();
 
 	InitGameManager();
 }

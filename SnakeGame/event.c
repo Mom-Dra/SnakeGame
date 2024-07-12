@@ -26,8 +26,6 @@ void InitEvent()
 	playerMoveInterval = 500;
 	oneSecondInterval = 5000;
 #endif // DEBUG
-
-	
 }
 
 void PlayerMoveEvent()
@@ -85,6 +83,6 @@ void CheckCollision()
 
 void DecreasePlayerMoveInterval()
 {
-	playerMoveInterval -= 40;
-	if (playerMoveInterval < 100)playerMoveInterval = 100;
+	playerMoveInterval -= 20;
+	if (playerMoveInterval < 50)playerMoveInterval = 50;
 }

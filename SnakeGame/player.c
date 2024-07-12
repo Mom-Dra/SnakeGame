@@ -4,8 +4,9 @@
 #include <conio.h>
 #include <stdlib.h>
 
-static struct Vector2 playerPos = { 15, 15 };
+static struct Vector2 playerPos = { MAP_WIDTH / 2, MAP_HEIGHT / 2 };
 static int currentDir = KEY_RIGHT;
+static int beforeDir = KEY_RIGHT;
 
 // Body의 0번째 인덱스는 항상 머리 인걸로;
 static struct Body* playerArr;
@@ -18,6 +19,9 @@ void InitPlayer()
 	{
 		playerArr = (struct Body*)malloc(capacity * sizeof(struct Body));
 	}
+
+	currentDir = KEY_RIGHT;
+	beforeDir = KEY_RIGHT;
 
 	size = 1;
 	playerPos.x = MAP_WIDTH / 2;
@@ -38,7 +42,7 @@ void SetPlayerPos()
 	for (int i = size - 1; i >= 1; --i)
 	{
 		playerArr[i] = playerArr[i - 1];
-		
+
 		SetMapBlock(playerArr[i].pos.x, playerArr[i].pos.y, BLOCK_PLAYER_BODY);
 	}
 
@@ -55,21 +59,57 @@ struct Vector2 GetPlayerPos()
 
 void MovePlayer()
 {
+	int isNewMoved = 0;
 	switch (currentDir)
 	{
 	case KEY_LEFT:
-		MoveLeft();
+		if (beforeDir != KEY_RIGHT)
+		{
+			MoveLeft();
+			isNewMoved = 1;
+		}
+		else
+		{
+			MoveRight();
+		}
 		break;
 	case KEY_RIGHT:
-		MoveRight();
+		if (beforeDir != KEY_LEFT)
+		{
+			MoveRight();
+			isNewMoved = 1;
+		}
+		else
+		{
+			MoveLeft();
+		}
 		break;
 	case KEY_UP:
-		MoveUp();
+		if (beforeDir != KEY_DOWN)
+		{
+			MoveUp();
+			isNewMoved = 1;
+		}
+		else
+		{
+			MoveDown();
+		}
 		break;
 	case KEY_DOWN:
-		MoveDown();
+		if (beforeDir != KEY_UP)
+		{
+			MoveDown();
+			isNewMoved = 1;
+		}
+		else
+		{
+			MoveUp();
+		}
 		break;
 	}
+
+	if (isNewMoved)
+		beforeDir = currentDir;
 }
 
 void MoveLeft()
@@ -88,7 +128,7 @@ void MoveUp()
 }
 
 void MoveDown()
-{	
+{
 	playerPos.y += 1;
 }
 
@@ -130,16 +170,44 @@ struct Vector2 GetNextPlayerPos()
 	switch (currentDir)
 	{
 	case KEY_LEFT:
-		nextPos.x -= 1;
+		if (beforeDir != KEY_RIGHT)
+		{
+			nextPos.x -= 1;
+		}
+		else
+		{
+			nextPos.x += 1;
+		}
 		break;
 	case KEY_RIGHT:
-		nextPos.x += 1;
+		if (beforeDir != KEY_LEFT)
+		{
+			nextPos.x += 1;
+		}
+		else
+		{
+			nextPos.x -= 1;
+		}
 		break;
 	case KEY_UP:
-		nextPos.y -= 1;
+		if (beforeDir != KEY_DOWN)
+		{
+			nextPos.y -= 1;
+		}
+		else
+		{
+			nextPos.y += 1;
+		}
 		break;
 	case KEY_DOWN:
-		nextPos.y += 1;
+		if (beforeDir != KEY_UP)
+		{
+			nextPos.y += 1;
+		}
+		else
+		{
+			nextPos.y -= 1;
+		}
 		break;
 	}
 

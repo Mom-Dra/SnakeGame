@@ -1,13 +1,34 @@
 #include <stdlib.h>
+#include "debug.h"
 #include "event.h"
 #include "player.h"
 #include "map.h"
 #include "vector2.h"
 #include "GameManager.h"
 
+#ifdef DEBUG
+playerMoveInterval = 100;
+oneSecondInterval = 1000;
+#else
+playerMoveInterval = 500;
+oneSecondInterval = 5000;
+#endif // DEBUG
+
 // 이벤트 함수 등록하는건 나중에 해보자!
-halfSecondInterval = 500;
-oneSecondInterval = 3000;
+
+
+void InitEvent()
+{
+#ifdef DEBUG
+	playerMoveInterval = 100;
+	oneSecondInterval = 1000;
+#else
+	playerMoveInterval = 500;
+	oneSecondInterval = 5000;
+#endif // DEBUG
+
+	
+}
 
 void PlayerMoveEvent()
 {
@@ -51,11 +72,19 @@ void CheckCollision()
 	case BLOCK_PLAYER_HEAD:
 		break;
 	case BLOCK_PLAYER_BODY:
+		GameOver();
 		break;
 	case BLOCK_ITEM:
 		IncreaseBody();
+		DecreasePlayerMoveInterval();
 		break;
 	default:
 		break;
 	}
+}
+
+void DecreasePlayerMoveInterval()
+{
+	playerMoveInterval -= 40;
+	if (playerMoveInterval < 100)playerMoveInterval = 100;
 }

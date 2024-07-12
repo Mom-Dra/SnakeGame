@@ -1,3 +1,4 @@
+#include <string.h>
 #include "map.h"
 #include "vector2.h"
 
@@ -77,6 +78,12 @@ static const char BLOCK_TYPES[][4] =
 		"●", // 3 플레이어 몸통
 		"♣" // 4 아이템
 };
+
+void InitMap()
+{
+	memcpy(ORIGIN_MAP, InitialMap, sizeof(ORIGIN_MAP));
+}
+
 
 const char* GetBlockString(int x, int y)
 {

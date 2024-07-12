@@ -27,6 +27,7 @@
     <ClCompile Include="screen.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="debug.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="map.h" />

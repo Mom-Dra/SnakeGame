@@ -20,8 +20,11 @@ void InitPlayer()
 	}
 
 	size = 1;
-	playerArr[0].pos.x = MAP_WIDTH / 2;
-	playerArr[0].pos.y = MAP_HEIGHT / 2;
+	playerPos.x = MAP_WIDTH / 2;
+	playerPos.y = MAP_HEIGHT / 2;
+
+	playerArr[0].pos.x = playerPos.x;
+	playerArr[0].pos.y = playerPos.y;
 }
 
 void SetPlayerPos()

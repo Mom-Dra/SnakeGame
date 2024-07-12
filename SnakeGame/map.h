@@ -19,6 +19,7 @@ enum BlockType
 	BLOCK_ITEM
 };
 
+void InitMap();
 const char* GetBlockString(int x, int y);
 void SetMapBlock(int x, int y, enum BlockType blockType);
 //void SetMapBlock(struct Vector2 pos, enum BlockType blockType);

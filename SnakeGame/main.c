@@ -1,4 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
+#define DEBUG
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -19,11 +20,12 @@
 
 // 구현해야 할 것
 // 충돌 이벤트
+// 
 // 반대방향으로 이동 막는거 추가
 // 
 // 2. 벽, 몸에 닿으면 게임 종료!!
 // 3. 아이템을 먹으면 이동 속도 증가
-// 4. 초기화면
+// 4. 초기화면 엔딩 아스키아트
 
 static int desiredFPS = 100;
 
@@ -32,8 +34,6 @@ void GameLoop();
 
 int main()
 {
-	Init();
-
 	while (1)
 	{
 		DrawInitialScreen();
@@ -42,7 +42,7 @@ int main()
 
 		GameLoop();
 
-		BreakSscreen();
+		//BreakScreen();
 	}
 	
 	//Release();
@@ -57,17 +57,24 @@ void Init()
 	
 	ScreenInit();
 
+	InitEvent();
+
+	InitMap();
+
 	InitPlayer();
+	//SetPlayerPos();
+
+	InitGameManager();
 }
 
 void GameLoop()
 {
-	ScreenInit();
+	Init();
 
 	clock_t lastTime = clock();
 	int millisecondsPerFrame = 1000 / desiredFPS;
 
-	oneEventTimer = lastTime;
+	playerMoveEventTimer = lastTime;
 	halfEventTimer = lastTime;
 
 	while (gameOver)
@@ -86,9 +93,9 @@ void GameLoop()
 			ScreenFlipping();
 
 			// 이벤트 1
-			clock_t halfEventDeltaTime = currentTime - oneEventTimer;
+			clock_t playerMoveEventDeltaTime = currentTime - playerMoveEventTimer;
 
-			if (halfEventDeltaTime >= halfSecondInterval)
+			if (playerMoveEventDeltaTime >= playerMoveInterval)
 			{
 				// 플레이어 움직임 이벤트
 				CheckCollision();
@@ -99,7 +106,7 @@ void GameLoop()
 				// 되겠네
 				SetPlayerPos();
 
-				oneEventTimer = currentTime;
+				playerMoveEventTimer = currentTime;
 			}
 
 			// 이벤트 2

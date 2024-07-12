@@ -8,23 +8,24 @@
 
 #ifdef DEBUG
 playerMoveInterval = 100;
-oneSecondInterval = 1000;
+itemGenerateInterval = 1000;
+wallGenerateInterval = 1000;
 #else
 playerMoveInterval = 500;
-oneSecondInterval = 5000;
+itemGenerateInterval = 5000;
+wallGenerateInterval = 30000;
 #endif // DEBUG
-
-// 이벤트 함수 등록하는건 나중에 해보자!
-
 
 void InitEvent()
 {
 #ifdef DEBUG
 	playerMoveInterval = 100;
-	oneSecondInterval = 1000;
+	itemGenerateInterval = 1000;
+	wallGenerateInterval = 1000;
 #else
 	playerMoveInterval = 500;
-	oneSecondInterval = 5000;
+	itemGenerateInterval = 5000;
+	wallGenerateInterval = 30000;
 #endif // DEBUG
 }
 
@@ -33,13 +34,13 @@ void PlayerMoveEvent()
 	MovePlayer();
 }
 
-void GenerateItemEvent()
+void GenerateBlockEvent(enum BlockType blockType)
 {
 	int x, y;
-	// 맵을 순회 하면서 0이면 랜덤 위치에 생성해야겠다
+
+	// 맵을 순회 하면서 blank 이면 랜덤 위치에 생성해야겠다
 	
 	// 랜덤 포지션 생성!
-	// 맵이 0이 아니면  
 	while (1)
 	{
 		x = rand() % MAP_WIDTH;
@@ -51,7 +52,7 @@ void GenerateItemEvent()
 		}
 	}
 
-	SetMapBlock(x, y, BLOCK_ITEM);
+	SetMapBlock(x, y, blockType);
 }
 
 void CheckCollision()
@@ -75,8 +76,6 @@ void CheckCollision()
 	case BLOCK_ITEM:
 		IncreaseBody();
 		DecreasePlayerMoveInterval();
-		break;
-	default:
 		break;
 	}
 }

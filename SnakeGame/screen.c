@@ -7,6 +7,8 @@
 static int g_nScreenIndex;
 static HANDLE g_hScreen[2];
 
+static int RainbowColor[7] = { 12, 6, 3, 10, 9, 1, 13 };
+
 void ScreenInit()
 {
 	CONSOLE_CURSOR_INFO cci;
@@ -60,10 +62,24 @@ void Render()
 
 void DrawMap()
 {
+	int rainbowIndex = 0;
+
 	for (int nY = 0; nY < MAP_HEIGHT; ++nY)
 	{
 		for (int nX = 0; nX < MAP_WIDTH; ++nX)
 		{
+			int blockType = GetMapBlockType(nX, nY);
+			if(blockType == BLOCK_PLAYER_HEAD)
+				SetConsoleTextAttribute(g_hScreen[g_nScreenIndex], 6);
+			else if(blockType == BLOCK_ITEM)
+				SetConsoleTextAttribute(g_hScreen[g_nScreenIndex], 14);
+			else if (blockType == BLOCK_PLAYER_BODY)
+			{
+				SetConsoleTextAttribute(g_hScreen[g_nScreenIndex], RainbowColor[rainbowIndex]);
+				rainbowIndex = (rainbowIndex + 1) % 7;
+			}
+			else
+				SetConsoleTextAttribute(g_hScreen[g_nScreenIndex], 15);
 			ScreenPrint(nX * 2, nY, GetBlockString(nX, nY));
 		}
 	}
@@ -71,30 +87,37 @@ void DrawMap()
 
 void DrawInitialScreen()
 {
-	/*for (int nY = 0; nY < MAP_HEIGHT; ++nY)
+	ScreenClear();
+
+	// 더블 버퍼링으로 아스키 아트 그리기
+	for (int i = 0; i < ROW_NUM_TITLE; ++i)
 	{
-		for (int nX = 0; nX < MAP_WIDTH; ++nX)
-		{
-			ScreenPrint(nX * 2, nY, GetBlockString(nX, nY));
-		}
-	}*/
+		ScreenPrint(15, i, Title[i]);
+	}
+
+	ScreenPrint(15 + 10, 11, "PRESS SPACE BAR TO START");
+
+	ScreenFlipping();
 }
 
 void DrawEndingScreen()
 {
-	/*for (int nY = 0; nY < MAP_HEIGHT; ++nY)
+	ScreenClear();
+
+	for (int i = 0; i < ROW_NUM_TITLE; ++i)
 	{
-		for (int nX = 0; nX < MAP_WIDTH; ++nX)
-		{
-			ScreenPrint(nX * 2, nY, GetBlockString(nX, nY));
-		}
-	}*/
+		ScreenPrint(15, i, Ending[i]);
+	}
+
+	ScreenPrint(15 + 30, 11, "PRESS SPACE BAR TO CONTINUE");
+
+	ScreenFlipping();
 }
 
 void BreakScreen()
 {
-	while (!_kbhit())
+	while (1)
 	{
-
+		if (_getch() == 32) break;
 	}
 }

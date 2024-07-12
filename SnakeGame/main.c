@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <conio.h>
 #include "screen.h"
 #include "player.h"
 #include "event.h"
+#include "map.h"
 #include "GameManager.h"
 
 // INPUT
@@ -19,14 +21,10 @@
 // 출력
 
 // 구현해야 할 것
-// 충돌 이벤트
 // 
-// 반대방향으로 이동 막는거 추가
-// 
-// 2. 벽, 몸에 닿으면 게임 종료!!
-// 3. 아이템을 먹으면 이동 속도 증가
-// 4. 초기화면 엔딩 아스키아트
-// 5. 사운드
+// 사운드
+// 점수
+// 최고기록 저장!
 
 static int desiredFPS = 100; // --> GameManager로 옮기자
 
@@ -35,6 +33,9 @@ void GameLoop();
 
 int main()
 {
+	srand(time(NULL));
+	ScreenInit();
+
 	while (1)
 	{
 		DrawInitialScreen();
@@ -43,20 +44,19 @@ int main()
 
 		GameLoop();
 
-		//BreakScreen();
+		DrawEndingScreen();
+
+		BreakScreen();
 	}
 	
-	//Release();
 	ScreenRelease();
 
 	return 0;
 }
 
 void Init()
-{
-	srand(time(NULL));
-	
-	ScreenInit();
+{	
+	//ScreenInit();
 
 	InitEvent();
 
@@ -75,7 +75,8 @@ void GameLoop()
 	int millisecondsPerFrame = 1000 / desiredFPS;
 
 	playerMoveEventTimer = lastTime;
-	halfEventTimer = lastTime;
+	itemGenerateEventTimer = lastTime;
+	wallGenerateEventTimer = lastTime;
 
 	while (gameOver)
 	{
@@ -92,6 +93,8 @@ void GameLoop()
 
 			ScreenFlipping();
 
+			lastTime = currentTime;
+
 			// 이벤트 1
 			clock_t playerMoveEventDeltaTime = currentTime - playerMoveEventTimer;
 
@@ -103,24 +106,31 @@ void GameLoop()
 				// 여기서 실제로 playerPos가 움직인다
 				PlayerMoveEvent();
 
-				// 되겠네
 				SetPlayerPos();
 
 				playerMoveEventTimer = currentTime;
 			}
 
 			// 이벤트 2
-			clock_t oneEventDeltaTime = currentTime - halfEventTimer;
+			clock_t itemGenerateEventDeltaTime = currentTime - itemGenerateEventTimer;
 
-			if (oneEventDeltaTime >= oneSecondInterval)
+			if (itemGenerateEventDeltaTime >= itemGenerateInterval)
 			{
 				// 아이템 생성 이벤트
-				GenerateItemEvent();
+				GenerateBlockEvent(BLOCK_ITEM);
 
-				halfEventTimer = currentTime;
+				itemGenerateEventTimer = currentTime;
 			}
 
-			lastTime = currentTime;
+			// 이벤트 3
+			clock_t wallGenerateEventDeltaTime = currentTime - wallGenerateEventTimer;
+
+			if (wallGenerateEventDeltaTime >= wallGenerateInterval)
+			{
+				// 벽 생성 이벤트
+				GenerateBlockEvent(BLOCK_WALL);
+				wallGenerateEventTimer = currentTime;
+			}
 		}
 	}
 }

@@ -1,8 +1,10 @@
 #pragma once
 
+#define ROW_NUM_TITLE 9
 
 #define MAP_HEIGHT 30
 #define MAP_WIDTH 30
+
 
 //#define BLOCK_BLANK 0
 //#define BLOCK_WALL 1
@@ -18,6 +20,9 @@ enum BlockType
 	BLOCK_PLAYER_BODY,
 	BLOCK_ITEM
 };
+
+extern const char Title[][51];
+extern const char Ending[][90];
 
 void InitMap();
 const char* GetBlockString(int x, int y);

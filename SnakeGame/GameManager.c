@@ -13,10 +13,4 @@ void InitGameManager()
 void GameOver()
 {
 	gameOver = 0;
-
-	ScreenClear();
-
-	ScreenPrint(0, 0, "Game Over!!!");
-
-	ScreenFlipping();
 }

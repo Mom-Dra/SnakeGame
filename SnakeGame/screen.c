@@ -1,13 +1,19 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <Windows.h>
 #include <conio.h>
 #include "screen.h"
 #include "map.h"
+#include "GameManager.h"
 
 static int g_nScreenIndex;
 static HANDLE g_hScreen[2];
 
 static int RainbowColor[7] = { 12, 6, 3, 10, 9, 1, 13 };
+
+static int score = 0;
+static int maxScore = 0;
+static char score_buffer[100];
 
 void ScreenInit()
 {
@@ -23,6 +29,9 @@ void ScreenInit()
 
 	SetConsoleCursorInfo(g_hScreen[0], &cci);
 	SetConsoleCursorInfo(g_hScreen[1], &cci);
+
+	RegistObserver(UpdateScore);
+	score = 0;
 }
 
 void ScreenFlipping()
@@ -58,6 +67,8 @@ void Render()
 {
 	// 맵그리기
 	DrawMap();
+	DrawScore(MAP_WIDTH * 2, 0, score);
+	DrawMaxScore(MAP_WIDTH * 2, 1, maxScore);
 }
 
 void DrawMap()
@@ -96,7 +107,6 @@ void DrawInitialScreen()
 	}
 
 	ScreenPrint(15 + 10, 11, "PRESS SPACE BAR TO START");
-
 	ScreenFlipping();
 }
 
@@ -109,9 +119,23 @@ void DrawEndingScreen()
 		ScreenPrint(15, i, Ending[i]);
 	}
 
-	ScreenPrint(15 + 30, 11, "PRESS SPACE BAR TO CONTINUE");
+	DrawScore(15 + 40, 11, score);
+	DrawMaxScore(15 + 40, 12, maxScore);
+	ScreenPrint(15 + 30, 14, "PRESS SPACE BAR TO CONTINUE");
 
 	ScreenFlipping();
+}
+
+void DrawScore(int x, int y, int _score)
+{
+	sprintf(score_buffer, "점수: %d", _score);
+	ScreenPrint(x, y, score_buffer);
+}
+
+void DrawMaxScore(int x, int y, int _score)
+{
+	sprintf(score_buffer, "최고 점수: %d", _score);
+	ScreenPrint(x, y, score_buffer);
 }
 
 void BreakScreen()
@@ -120,4 +144,10 @@ void BreakScreen()
 	{
 		if (_getch() == 32) break;
 	}
+}
+
+void UpdateScore(int _score, int _maxScore)
+{
+	score = _score;
+	maxScore = _maxScore;
 }

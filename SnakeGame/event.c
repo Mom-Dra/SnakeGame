@@ -32,6 +32,7 @@ void InitEvent()
 void PlayerMoveEvent()
 {
 	MovePlayer();
+	IncreaseScore(1);
 }
 
 void GenerateBlockEvent(enum BlockType blockType)
@@ -53,6 +54,11 @@ void GenerateBlockEvent(enum BlockType blockType)
 	}
 
 	SetMapBlock(x, y, blockType);
+
+	if (blockType == BLOCK_WALL)
+	{
+		IncreaseItemScore();
+	}
 }
 
 void CheckCollision()
@@ -76,6 +82,7 @@ void CheckCollision()
 	case BLOCK_ITEM:
 		IncreaseBody();
 		DecreasePlayerMoveInterval();
+		IncreaseScore(GetItemScore());
 		break;
 	}
 }

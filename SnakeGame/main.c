@@ -25,6 +25,7 @@
 // 사운드
 // 점수
 // 최고기록 저장!
+// 엔딩 씬에 점수 출력해주기
 
 static int desiredFPS = 100; // --> GameManager로 옮기자
 
@@ -35,6 +36,7 @@ int main()
 {
 	srand(time(NULL));
 	ScreenInit();
+	ReadMaxScore();
 
 	while (1)
 	{
@@ -78,7 +80,7 @@ void GameLoop()
 	itemGenerateEventTimer = lastTime;
 	wallGenerateEventTimer = lastTime;
 
-	while (gameOver)
+	while (!IsGameOver())
 	{
 		clock_t currentTime = clock();
 		clock_t deltaTime = currentTime - lastTime;

@@ -5,6 +5,8 @@
 #define MAP_HEIGHT 30
 #define MAP_WIDTH 30
 
+#define TITLE_WIDTH 51
+#define ENDING_WIDTH 90
 
 //#define BLOCK_BLANK 0
 //#define BLOCK_WALL 1

@@ -90,5 +90,5 @@ void CheckCollision()
 void DecreasePlayerMoveInterval()
 {
 	playerMoveInterval -= 20;
-	if (playerMoveInterval < 50)playerMoveInterval = 50;
+	if (playerMoveInterval < 70) playerMoveInterval = 70;
 }

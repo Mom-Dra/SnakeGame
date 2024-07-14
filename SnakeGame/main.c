@@ -23,6 +23,7 @@
 // 구현해야 할 것
 // AI
 // 사운드
+// GameOver로 수정
 
 static int desiredFPS = 100; // --> GameManager로 옮기자
 

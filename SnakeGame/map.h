@@ -24,7 +24,7 @@ enum BlockType
 };
 
 extern const char Title[][51];
-extern const char Ending[][90];
+extern const char Ending[][91];
 
 void InitMap();
 const char* GetBlockString(int x, int y);

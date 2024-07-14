@@ -37,7 +37,6 @@ void SetPlayerPos()
 	// size가 2라면
 	SetMapBlock(playerArr[size - 1].pos.x, playerArr[size - 1].pos.y, BLOCK_BLANK);
 
-
 	// 처음에는 머리의 방향으로 갈거야 ! ! !
 	for (int i = size - 1; i >= 1; --i)
 	{

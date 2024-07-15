@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AI.c" />
     <ClCompile Include="event.c" />
     <ClCompile Include="GameManager.c" />
     <ClCompile Include="main.c" />
@@ -27,6 +28,7 @@
     <ClCompile Include="screen.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AI.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="GameManager.h" />

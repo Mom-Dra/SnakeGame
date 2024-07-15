@@ -92,20 +92,27 @@ static int ORIGIN_MAP[MAP_HEIGHT][MAP_WIDTH] =
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 };
 
-static const char BLOCK_TYPES[][4] =
+static const char BLOCK_TYPES[][7] =
 {
 	" ", // 0 빈칸
 		"▣", // 1 벽
 		"●", // 2 프레이어 머리
 		"■", // 3 플레이어 몸통
-		"★" // 4 아이템
+		"★", // 4 아이템
+		"○", // AI 머리
+		"□" // AI 몸통
 };
+
+static int isInclude[ITEM_ARR_LENGTH] = { 0 };
+static struct Vector2 items[ITEM_ARR_LENGTH];
+
+static int ItemCount = 0;
 
 void InitMap()
 {
 	memcpy(ORIGIN_MAP, Origin_Map_Backup, sizeof(ORIGIN_MAP));
+	ItemCount = 0;
 }
-
 
 const char* GetBlockString(int x, int y)
 {
@@ -131,3 +138,50 @@ enum BlockType GetMapBlockType(int x, int y)
 //{
 //	return ORIGIN_MAP[pos.y][pos.x];
 //}
+
+void IncreaseItemCount(int x, int y)
+{
+	++ItemCount;
+
+	for (int i = 0; i < ITEM_ARR_LENGTH; ++i)
+	{
+		if (isInclude[i] == 0)
+		{
+			items[i].x = x;
+			items[i].y = y;
+
+			isInclude[i] = 1;
+
+			break;
+		}
+	}
+}
+
+void DecreaseItemCount(struct Vector2 pos)
+{
+	--ItemCount;
+
+	for (int i = 0; i < ITEM_ARR_LENGTH; ++i)
+	{
+		if (items[i].x == pos.x && items[i].y == pos.y)
+		{
+			isInclude[i] = 0;
+			break;
+		}
+	}
+}
+
+int IsExistItem()
+{
+	return ItemCount;
+}
+
+int* GetIsIncluded()
+{
+	return isInclude;
+}
+
+struct Vector2* GetItems()
+{
+	return items;
+}

@@ -5,12 +5,15 @@
 #include "map.h"
 #include "vector2.h"
 #include "GameManager.h"
+#include "AI.h"
 
 #ifdef DEBUG
+aiMoveInterval = 100;
 playerMoveInterval = 100;
 itemGenerateInterval = 1000;
 wallGenerateInterval = 1000;
 #else
+aiMoveInterval = 500;
 playerMoveInterval = 500;
 itemGenerateInterval = 5000;
 wallGenerateInterval = 30000;
@@ -19,14 +22,21 @@ wallGenerateInterval = 30000;
 void InitEvent()
 {
 #ifdef DEBUG
+	aiMoveInterval = 100;
 	playerMoveInterval = 100;
 	itemGenerateInterval = 1000;
 	wallGenerateInterval = 1000;
 #else
+	aiMoveInterval = 500;
 	playerMoveInterval = 500;
 	itemGenerateInterval = 5000;
 	wallGenerateInterval = 30000;
 #endif // DEBUG
+}
+
+void AIMoveEvent()
+{
+	MoveAI();
 }
 
 void PlayerMoveEvent()
@@ -55,7 +65,11 @@ void GenerateBlockEvent(enum BlockType blockType)
 
 	SetMapBlock(x, y, blockType);
 
-	if (blockType == BLOCK_WALL)
+	if (blockType == BLOCK_ITEM)
+	{ 
+		IncreaseItemCount(x, y);
+	}
+	else if (blockType == BLOCK_WALL)
 	{
 		IncreaseItemScore();
 	}
@@ -83,6 +97,13 @@ void CheckCollision()
 		IncreaseBody();
 		DecreasePlayerMoveInterval();
 		IncreaseScore(GetItemScore());
+		DecreaseItemCount();
+		break;
+	case BLOCK_AI_HEAD:
+		GameOver();
+		break;
+	case BLOCK_AI_BODY:
+		GameOver();
 		break;
 	}
 }

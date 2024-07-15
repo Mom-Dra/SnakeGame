@@ -9,6 +9,7 @@
 #include "event.h"
 #include "map.h"
 #include "GameManager.h"
+#include "AI.h"
 
 // INPUT
 // 입력 받기
@@ -62,6 +63,8 @@ void Init()
 
 	InitMap();
 
+	InitAI();
+
 	InitPlayer();
 
 	InitGameManager();
@@ -74,6 +77,7 @@ void GameLoop()
 	clock_t lastTime = clock();
 	int millisecondsPerFrame = 1000 / desiredFPS;
 
+	aiMoveEventTimer = lastTime;
 	playerMoveEventTimer = lastTime;
 	itemGenerateEventTimer = lastTime;
 	wallGenerateEventTimer = lastTime;
@@ -95,6 +99,36 @@ void GameLoop()
 
 			lastTime = currentTime;
 
+			// 아이템 생성 이벤트
+			clock_t itemGenerateEventDeltaTime = currentTime - itemGenerateEventTimer;
+
+			if (itemGenerateEventDeltaTime >= itemGenerateInterval)
+			{
+				GenerateBlockEvent(BLOCK_ITEM);
+
+				itemGenerateEventTimer = currentTime;
+			}
+
+			// 벽 생성 이벤트
+			clock_t wallGenerateEventDeltaTime = currentTime - wallGenerateEventTimer;
+
+			if (wallGenerateEventDeltaTime >= wallGenerateInterval)
+			{
+				// 벽 생성 이벤트
+				GenerateBlockEvent(BLOCK_WALL);
+				wallGenerateEventTimer = currentTime;
+			}
+
+			// AI 움직임 이벤트
+			clock_t aiMoveEventDeltaTime = currentTime - aiMoveEventTimer;
+
+			if (aiMoveEventDeltaTime >= aiMoveInterval)
+			{
+				AIMoveEvent();
+
+				aiMoveEventTimer = currentTime;
+			}
+
 			// 이벤트 1
 			clock_t playerMoveEventDeltaTime = currentTime - playerMoveEventTimer;
 
@@ -109,27 +143,6 @@ void GameLoop()
 				SetPlayerPos();
 
 				playerMoveEventTimer = currentTime;
-			}
-
-			// 이벤트 2
-			clock_t itemGenerateEventDeltaTime = currentTime - itemGenerateEventTimer;
-
-			if (itemGenerateEventDeltaTime >= itemGenerateInterval)
-			{
-				// 아이템 생성 이벤트
-				GenerateBlockEvent(BLOCK_ITEM);
-
-				itemGenerateEventTimer = currentTime;
-			}
-
-			// 이벤트 3
-			clock_t wallGenerateEventDeltaTime = currentTime - wallGenerateEventTimer;
-
-			if (wallGenerateEventDeltaTime >= wallGenerateInterval)
-			{
-				// 벽 생성 이벤트
-				GenerateBlockEvent(BLOCK_WALL);
-				wallGenerateEventTimer = currentTime;
 			}
 		}
 	}

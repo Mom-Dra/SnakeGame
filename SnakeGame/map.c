@@ -99,8 +99,8 @@ static const char BLOCK_TYPES[][7] =
 		"●", // 2 프레이어 머리
 		"■", // 3 플레이어 몸통
 		"★", // 4 아이템
-		"○", // AI 머리
-		"□" // AI 몸통
+		"○", // 5 AI 머리
+		"□" // 6 AI 몸통
 };
 
 static int isInclude[ITEM_ARR_LENGTH] = { 0 };

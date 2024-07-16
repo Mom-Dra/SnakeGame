@@ -97,7 +97,7 @@ void CheckCollision()
 		IncreaseBody();
 		DecreasePlayerMoveInterval();
 		IncreaseScore(GetItemScore());
-		DecreaseItemCount();
+		DecreaseItemCount(nextPos);
 		break;
 	case BLOCK_AI_HEAD:
 		GameOver();

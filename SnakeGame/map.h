@@ -37,7 +37,7 @@ void SetMapBlock(int x, int y, enum BlockType blockType);
 enum BlockType GetMapBlockType(int x, int y);
 //int GetMapBlock(struct Vector2 pos);
 void IncreaseItemCount(int x, int y);
-void DecreaseItemCount();
+void DecreaseItemCount(struct Vector2 pos);
 int IsExistItem();
 int* GetIsIncluded();
 struct Vector2* GetItems();

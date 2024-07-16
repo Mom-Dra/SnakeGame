@@ -112,6 +112,11 @@ void InitMap()
 {
 	memcpy(ORIGIN_MAP, Origin_Map_Backup, sizeof(ORIGIN_MAP));
 	ItemCount = 0;
+
+	for (int i = 0; i < ITEM_ARR_LENGTH; ++i)
+	{
+		isInclude[i] = 0;
+	}
 }
 
 const char* GetBlockString(int x, int y)

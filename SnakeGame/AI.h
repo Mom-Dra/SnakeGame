@@ -8,3 +8,7 @@
 void InitAI();
 void MoveAI();
 struct Vector2 CalNextAIPos();
+struct Vector2 GetRandomPos();
+
+void IncreaseAIBody();
+int CalDistance(struct Vector2 pos1, struct Vector2 pos2);

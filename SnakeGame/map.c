@@ -144,6 +144,14 @@ enum BlockType GetMapBlockType(int x, int y)
 //	return ORIGIN_MAP[pos.y][pos.x];
 //}
 
+int CanGoBlock(enum BlockType blockType)
+{
+	if (blockType == BLOCK_ITEM || blockType == BLOCK_BLANK)
+		return 1;
+
+	return 0;
+}
+
 void IncreaseItemCount(int x, int y)
 {
 	++ItemCount;

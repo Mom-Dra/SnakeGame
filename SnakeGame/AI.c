@@ -2,6 +2,7 @@
 #include "AI.h"
 #include "vector2.h"
 #include "map.h"
+#include "event.h"
 
 static struct Vector2 pos = { MAP_WIDTH / 3, MAP_HEIGHT / 3 };
 
@@ -40,6 +41,7 @@ struct Vector2 ReGenerateAI()
 
 	size = 1;
 	dir = -1;
+	IncreaseAIMoveInterval();
 
 	struct Vector2 newPos;
 
@@ -94,6 +96,9 @@ struct Vector2 CalNextAIPos()
 	// 아니면 랜덤으로 돌리자!
 	struct Vector2 nextPos = pos;
 
+	if (!CangoFourDir())
+		return ReGenerateAI();
+
 	if (IsExistItem())
 	{
 		// 가장 가까운 별로 가는 길이 막힌 경우가 있다..!
@@ -143,7 +148,7 @@ struct Vector2 CalNextAIPos()
 				blockType = GetMapBlockType(nextPos.x, nextPos.y);
 				dir = (dx > 0) ? RIGHT : LEFT;
 				
-				if (blockType != BLOCK_BLANK && blockType != BLOCK_ITEM)
+				if (!CanGoBlock(blockType))
 				{
 					canMoveX = 0;
 					nextPos.x -= (dx > 0) ? 1 : -1;
@@ -152,7 +157,7 @@ struct Vector2 CalNextAIPos()
 					blockType = GetMapBlockType(nextPos.x, nextPos.y);
 					dir = (dy > 0) ? DOWN : UP;
 
-					if (blockType != BLOCK_BLANK && blockType != BLOCK_ITEM)
+					if (!CanGoBlock(blockType))
 					{
 						canMoveY = 0;
 					}
@@ -165,7 +170,7 @@ struct Vector2 CalNextAIPos()
 				blockType = GetMapBlockType(nextPos.x, nextPos.y);
 				dir = (dy > 0) ? DOWN : UP;
 
-				if (blockType != BLOCK_BLANK && blockType != BLOCK_ITEM)
+				if (!CanGoBlock(blockType))
 				{
 					canMoveY = 0;
 					nextPos.y -= (dy > 0) ? 1 : -1;
@@ -174,7 +179,7 @@ struct Vector2 CalNextAIPos()
 					blockType = GetMapBlockType(nextPos.x, nextPos.y);
 					dir = (dx > 0) ? RIGHT : LEFT;
 
-					if (blockType != BLOCK_BLANK && blockType != BLOCK_ITEM)
+					if (!CanGoBlock(blockType))
 					{
 						canMoveX = 0;
 					}
@@ -197,23 +202,27 @@ struct Vector2 CalNextAIPos()
 			{ // 몸 길이 증가
 				IncreaseAIBody();
 				DecreaseItemCount(nextPos);
+				DecreaseAIMoveInterval();
 
 				return nextPos;
 			}
-			else if (blockType != BLOCK_BLANK)
-			{ // 못가는 케이스
-				continue;
+			else if (blockType == BLOCK_BLANK)
+			{ 
 
-				// 둘다 그거면..
+				return nextPos;
 			}
 			else
 			{
-				return nextPos;
+				// 못가는 케이스
+				continue;
 			}
 		}
 	}
 	else
 	{ // 별이 맵에 없을 때
+		if (!CangoFourDir())
+			return ReGenerateAI();
+
 		return GetRandomPos();
 	}
 }
@@ -243,6 +252,14 @@ int CangoFourDir()
 
 struct Vector2 GetRandomPos()
 {
+	// 가는 길은 있는데 왔던 길일 때 자살 구현하자
+
+	enum BlockType upBlockType, downBlockType, leftBlockType, rightBlockType;
+	upBlockType = GetMapBlockType(pos.x, pos.y - 1);
+	downBlockType = GetMapBlockType(pos.x, pos.y + 1);
+	leftBlockType = GetMapBlockType(pos.x - 1, pos.y);
+	rightBlockType = GetMapBlockType(pos.x + 1, pos.y);
+
 	while (1)
 	{
 		struct Vector2 nextPos = pos;
@@ -253,19 +270,43 @@ struct Vector2 GetRandomPos()
 		switch (num)
 		{
 		case UP:
-			if (dir == DOWN) continue;
+			if (dir == DOWN)
+			{
+				if (!CanGoBlock(downBlockType) && !CanGoBlock(leftBlockType) && !CanGoBlock(rightBlockType))
+					ReGenerateAI();
+
+				continue;
+			}
 			nextPos.y -= 1;
 			break;
 		case DOWN:
-			if (dir == UP) continue;
+			if (dir == UP)
+			{
+				if (!CanGoBlock(upBlockType) && !CanGoBlock(leftBlockType) && !CanGoBlock(rightBlockType))
+					ReGenerateAI();
+
+				continue;
+			}
 			nextPos.y += 1;
 			break;
 		case LEFT:
-			if (dir == RIGHT) continue;
+			if (dir == RIGHT)
+			{
+				if (!CanGoBlock(upBlockType) && !CanGoBlock(downBlockType) && !CanGoBlock(rightBlockType))
+					ReGenerateAI();
+
+				continue;
+			}
 			nextPos.x -= 1;
 			break;
 		case RIGHT:
-			if (dir == LEFT) continue;
+			if (dir == LEFT)
+			{
+				if (!CanGoBlock(upBlockType) && !CanGoBlock(downBlockType) && !CanGoBlock(leftBlockType))
+					ReGenerateAI();
+
+				continue;
+			}
 			nextPos.x += 1;
 			break;
 		}
@@ -275,6 +316,16 @@ struct Vector2 GetRandomPos()
 		if (type == BLOCK_BLANK)
 		{
 			dir = num;
+			return nextPos;
+		}
+		else if (type == BLOCK_ITEM)
+		{
+			dir = num;
+
+			IncreaseAIBody();
+			DecreaseItemCount(nextPos);
+			DecreaseAIMoveInterval();
+
 			return nextPos;
 		}
 	}

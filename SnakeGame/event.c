@@ -72,6 +72,7 @@ void GenerateBlockEvent(enum BlockType blockType)
 	else if (blockType == BLOCK_WALL)
 	{
 		IncreaseItemScore();
+		DecreaseItemGenerateInterval();
 	}
 }
 
@@ -112,4 +113,22 @@ void DecreasePlayerMoveInterval()
 {
 	playerMoveInterval -= 20;
 	if (playerMoveInterval < 70) playerMoveInterval = 70;
+}
+
+void DecreaseAIMoveInterval()
+{
+	aiMoveInterval -= 20;
+	if (aiMoveInterval < 70) aiMoveInterval = 70;
+}
+
+void IncreaseAIMoveInterval()
+{
+	aiMoveInterval += 60;
+	if (aiMoveInterval > 500)aiMoveInterval = 500;
+}
+
+void DecreaseItemGenerateInterval()
+{
+	itemGenerateInterval -= 100;
+	if (itemGenerateInterval < 3000) itemGenerateInterval = 3000;
 }

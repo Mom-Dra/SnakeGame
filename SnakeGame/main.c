@@ -130,20 +130,20 @@ void GameLoop()
 			}
 
 			// 이벤트 1
-			//clock_t playerMoveEventDeltaTime = currentTime - playerMoveEventTimer;
+			clock_t playerMoveEventDeltaTime = currentTime - playerMoveEventTimer;
 
-			//if (playerMoveEventDeltaTime >= playerMoveInterval)
-			//{
-			//	// 플레이어 움직임 이벤트
-			//	CheckCollision();
+			if (playerMoveEventDeltaTime >= playerMoveInterval)
+			{
+				// 플레이어 움직임 이벤트
+				CheckCollision();
 
-			//	// 여기서 실제로 playerPos가 움직인다
-			//	PlayerMoveEvent();
+				// 여기서 실제로 playerPos가 움직인다
+				PlayerMoveEvent();
 
-			//	SetPlayerPos();
+				SetPlayerPos();
 
-			//	playerMoveEventTimer = currentTime;
-			//}
+				playerMoveEventTimer = currentTime;
+			}
 		}
 	}
 }

@@ -20,3 +20,6 @@ void PlayerMoveEvent();
 void GenerateBlockEvent(enum BlockType blockType);
 void CheckCollision();
 void DecreasePlayerMoveInterval();
+void DecreaseAIMoveInterval();
+void IncreaseAIMoveInterval();
+void DecreaseItemGenerateInterval();

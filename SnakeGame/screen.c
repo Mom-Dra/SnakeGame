@@ -80,9 +80,9 @@ void DrawMap()
 		for (int nX = 0; nX < MAP_WIDTH; ++nX)
 		{
 			int blockType = GetMapBlockType(nX, nY);
-			if(blockType == BLOCK_PLAYER_HEAD)
+			if (blockType == BLOCK_PLAYER_HEAD)
 				SetConsoleTextAttribute(g_hScreen[g_nScreenIndex], 6);
-			else if(blockType == BLOCK_ITEM)
+			else if (blockType == BLOCK_ITEM)
 				SetConsoleTextAttribute(g_hScreen[g_nScreenIndex], 14);
 			else if (blockType == BLOCK_PLAYER_BODY)
 			{

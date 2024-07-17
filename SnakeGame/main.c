@@ -10,6 +10,7 @@
 #include "map.h"
 #include "GameManager.h"
 #include "AI.h"
+#include "sound.h"
 
 // INPUT
 // 입력 받기
@@ -39,12 +40,14 @@ int main()
 
 	while (1)
 	{
+		PlayGameStart();
 		DrawInitialScreen();
 
 		BreakScreen();
 
 		GameLoop();
 
+		PlayGameOverSound();
 		DrawEndingScreen();
 
 		BreakScreen();
@@ -138,6 +141,7 @@ void GameLoop()
 				CheckCollision();
 
 				// 여기서 실제로 playerPos가 움직인다
+				PlayMoveSound();
 				PlayerMoveEvent();
 
 				SetPlayerPos();

@@ -99,6 +99,7 @@ void CheckCollision()
 		DecreasePlayerMoveInterval();
 		IncreaseScore(GetItemScore());
 		DecreaseItemCount(nextPos);
+		PlayItemEatSound();
 		break;
 	case BLOCK_AI_HEAD:
 		GameOver();

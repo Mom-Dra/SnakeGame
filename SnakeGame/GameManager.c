@@ -24,6 +24,7 @@ void GameOver()
 {
 	gameOver = 1;
 
+	PlayGameOverSound();
 	WriteMaxScore();
 }
 
